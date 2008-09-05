@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  *
- * @author usuário
+ * @author usuario
  */
 public class HashingTest {
 
