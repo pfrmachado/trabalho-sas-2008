@@ -1,6 +1,10 @@
-package br.ufg.inf.seguranca;
+package seguranca;
 
-/**
+//package seguranca;
+
+
+
+/*
  * Serviços de hashing da biblioteca.
  * 
  * @author Fábio Nogueira de Lucena

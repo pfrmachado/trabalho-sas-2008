@@ -1,4 +1,5 @@
-package br.ufg.inf.seguranca;
+package seguranca;
+
 
 import java.io.FileInputStream;
 import java.security.MessageDigest;
