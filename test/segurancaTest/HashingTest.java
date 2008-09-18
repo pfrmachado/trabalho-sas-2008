@@ -43,8 +43,7 @@ public class HashingTest {
     public void testMd5() throws Exception {
         HashingImpl hash = new HashingImpl();
         byte[] hashValue = hash.md5("res/teste.txt");
-        assertEquals("1ca308df6cdb0a8bf40d59be2a17eac1", hash.toHex(hashValue));
-//    	assertEquals("1ca308df6cdb0a8bf40d59be2a17eac1", Seguranca.md5("nomearquivo.txt"));
+        assertEquals("698dc19d489c4e4db73e28a713eab07b", hash.toHex(hashValue));
     }
     
 
@@ -53,7 +52,7 @@ public class HashingTest {
     public void testSha1() throws Exception {
         HashingImpl hash = new HashingImpl();
         byte[] hashValue = hash.sha1("res/teste.txt");
-        assertEquals("9dc628289966d144c1a5fa20dd60b1ca1b9de6ed", hash.toHex(hashValue));
+        assertEquals("2e6f9b0d5885b6010f9167787445617f553a735f", hash.toHex(hashValue));
     }
 
 }
