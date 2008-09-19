@@ -6,6 +6,7 @@ EDITEM A MEDIDA QUE APARECEREM DÚVIDAS E SUGESTÕES.
 	-> 1 pessoa responsável pelas assinaturas
 	-> 1 pessoa responsável pela criptografia
 	-> 2 pessoas responsáveis pelos certificados
+	(http://www.guj.com.br/java.tutorial.artigo.141.1.guj)
 	-> 1 pessoa responsável por colocar no padrão façade
 	(http://en.wikipedia.org/wiki/Facade_pattern),
 	criar o .jar da biblioteca, gerar arquivos de ajuda e
@@ -14,3 +15,5 @@ EDITEM A MEDIDA QUE APARECEREM DÚVIDAS E SUGESTÕES.
 	OBS: Os responáveis pelos pacotes deverão criar os casos
 	de teste e comentar os métodos de acordo com o padrão
 	javadoc.
+
+	
