@@ -2,11 +2,15 @@ package assinaturas;
 
 
 import java.security.Key;
+import java.security.KeyFactory;
 import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.security.PublicKey;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 
 import java.io.File;
 import java.io.InputStream;
@@ -20,6 +24,27 @@ public class AssinaturaDigitalImpl {
 	private String alias = "sas";
 	private String pwd = "sas123";
 	
+	
+	public Boolean VerificaAssinatura(String PublicKey, String texto){
+
+		
+		KeyFactory kf = null;
+		try {
+			kf = java.security.KeyFactory.getInstance("RSA");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			PublicKey pubKey = kf.generatePublic(
+					new X509EncodedKeySpec(PublicKey.getBytes()));
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+		
+	}
 	
 	public void Teste(){
 	try {
