@@ -4,3 +4,15 @@ EDITEM A MEDIDA QUE APARECEREM DÚVIDAS E SUGESTÕES.
 -> A biblioteca segue o padrão façade, como descrito em:
 http://en.wikipedia.org/wiki/Facade_pattern
 
+
+-> Discutir a divisão das tarefas do trabalho.
+	-> 1 pessoa responsável pelas assinaturas
+	-> 1 pessoa responsável pela criptografia
+	-> 2 pessoas responsáveis pelos certificados
+	-> 1 pessoa responsável por colocar no padrão façade,
+	criar o .jar da biblioteca, gerar arquivos de ajuda e
+	dar os "acabamentos" finais.
+	
+	OBS: Os responáveis pelos pacotes deverão criar os casos
+	de teste e comentar os métodos de acordo com o padrão
+	javadoc.
