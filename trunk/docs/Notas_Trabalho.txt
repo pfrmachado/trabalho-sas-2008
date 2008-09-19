@@ -1,0 +1,6 @@
+AQUI ESTÃO AS NOTAS DE DESENVOLVIMENTO DO TRABALHO!
+EDITEM A MEDIDA QUE APARECEREM DÚVIDAS E SUGESTÕES.
+
+-> A biblioteca segue o padrão façade, como descrito em:
+http://en.wikipedia.org/wiki/Facade_pattern
+
