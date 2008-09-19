@@ -1,4 +1,4 @@
-package seguranca;
+package hash;
 
 //package seguranca;
 
