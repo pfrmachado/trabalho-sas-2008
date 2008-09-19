@@ -18,7 +18,7 @@ import org.junit.Test;
 
 /**
  * 
- * @author urio
+ * @author usuario
  */
 public class HashingTest {
 
