@@ -1,16 +1,11 @@
 package assinaturas;
 
-
 import java.security.Key;
-import java.security.KeyFactory;
 import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.security.PublicKey;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
 
 import java.io.File;
 import java.io.InputStream;
@@ -18,58 +13,35 @@ import java.io.FileInputStream;
 
 
 public class AssinaturaDigitalImpl {
-
+	private static final String algorithm = "RSA";
 	private static final String signatureAlgorithm = "MD5withRSA";
-	private File cert = new File("res/guj.jks");
-	private String alias = "sas";
-	private String pwd = "sas123";
-	
-	
-	public Boolean VerificaAssinatura(String PublicKey, String texto){
 
-		
-		KeyFactory kf = null;
-		try {
-			kf = java.security.KeyFactory.getInstance("RSA");
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			PublicKey pubKey = kf.generatePublic(
-					new X509EncodedKeySpec(PublicKey.getBytes()));
-		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return true;
-		
-	}
-	
-	public void Teste(){
-	try {
+	public static void main(String[] args) {
 		String txt = "String a ser encriptada";
 
-		PrivateKey privateKey = getPrivateKeyFromFile( cert, alias, pwd );
-		PublicKey publicKey = getPublicKeyFromFile( cert, alias, pwd );
+		try {
+			File cert = new File("C:/guj.jks");
+			String alias = "guj";
+			String pwd = "guj123";
 
-		byte[] txtAssinado = createSignature( privateKey, txt.getBytes() );
+			PrivateKey privateKey = getPrivateKeyFromFile( cert, alias, pwd );
+			PublicKey publicKey = getPublicKeyFromFile( cert, alias, pwd );
 
-		System.out.println( txt2Hexa( txtAssinado ) );
+			byte[] txtAssinado = createSignature( privateKey, txt.getBytes() );
 
-		if( verifySignature( publicKey, txt.getBytes(), txtAssinado ) ) {
-			System.out.println("Assinatura OK!");
-		} else {
-			System.out.println("Assinatura NOT OK!");
+			System.out.println( txt2Hexa( txtAssinado ) );
+
+			if( verifySignature( publicKey, txt.getBytes(), txtAssinado ) ) {
+				System.out.println("Assinatura OK!");
+			} else {
+				System.out.println("Assinatura NOT OK!");
+			}
+
+		} catch( Exception e ) {
+			e.printStackTrace();
 		}
-
-	} catch( Exception e ) {
-		e.printStackTrace();
 	}
 
-	}
-	
-	
 	/**
      * Extrai a chave privada do arquivo.
      */
