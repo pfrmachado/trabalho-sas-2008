@@ -46,7 +46,7 @@ public class HashingTest {
     public void testMd5() throws Exception {
         HashingImpl hash = new HashingImpl();
         byte[] hashValue = hash.md5("res/teste.txt");
-        assertEquals("698dc19d489c4e4db73e28a713eab07b", hash.toHex(hashValue));
+        assertEquals("a484381dd25c096c2ef70fe3c50f4f56", hash.toHex(hashValue));
     }
     
 
@@ -55,7 +55,7 @@ public class HashingTest {
     public void testSha1() throws Exception {
         HashingImpl hash = new HashingImpl();
         byte[] hashValue = hash.sha1("res/teste.txt");
-        assertEquals("2e6f9b0d5885b6010f9167787445617f553a735f", hash.toHex(hashValue));
+        assertEquals("9d2eb1a653753c0eb5ed66f741a8eeba73645353", hash.toHex(hashValue));
     }
 
 }
