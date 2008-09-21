@@ -1,4 +1,4 @@
-package assinaturas;
+package assinaturas.lixo;
 
 public interface AssinaturaDigital2 {
 	byte[] recuperaStringAssinada(byte[] chavePublica, String algoritmoChave, byte[] textoAssinado, String algoritmoAssinatura);
