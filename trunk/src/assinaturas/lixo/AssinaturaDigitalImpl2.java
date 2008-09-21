@@ -1,4 +1,4 @@
-package assinaturas;
+package assinaturas.lixo;
 
 
 import java.security.InvalidKeyException;
@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.FileInputStream;
+
 
 
 public class AssinaturaDigitalImpl2 implements AssinaturaDigital2 {

@@ -1,109 +1,190 @@
 package assinaturas;
 
-import java.security.Key;
-import java.security.KeyStore;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.security.PublicKey;
 import java.security.PrivateKey;
-import java.security.cert.Certificate;
+import java.security.SignatureException;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.io.FileInputStream;
 
 
 public class AssinaturaDigitalImpl {
-	private static final String algorithm = "RSA";
-	private static final String signatureAlgorithm = "MD5withRSA";
+	
 
-	public static void main(String[] args) {
-		String txt = "String a ser encriptada";
-
+	public byte[] assinaString(PrivateKey privk, byte[] stringOriginal, String algoritmoAssinatura){
+		
+		
+		Signature sig=null;
 		try {
-			File cert = new File("C:/guj.jks");
-			String alias = "guj";
-			String pwd = "guj123";
-
-			PrivateKey privateKey = getPrivateKeyFromFile( cert, alias, pwd );
-			PublicKey publicKey = getPublicKeyFromFile( cert, alias, pwd );
-
-			byte[] txtAssinado = createSignature( privateKey, txt.getBytes() );
-
-			System.out.println( txt2Hexa( txtAssinado ) );
-
-			if( verifySignature( publicKey, txt.getBytes(), txtAssinado ) ) {
-				System.out.println("Assinatura OK!");
-			} else {
-				System.out.println("Assinatura NOT OK!");
-			}
-
-		} catch( Exception e ) {
+			sig = Signature.getInstance( algoritmoAssinatura );
+		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-     * Extrai a chave privada do arquivo.
-     */
-    public static PrivateKey getPrivateKeyFromFile( File cert, String alias, String password ) throws Exception {
-        KeyStore ks = KeyStore.getInstance ( "JKS" );
-        char[] pwd = password.toCharArray();
-        InputStream is = new FileInputStream( cert );
-        ks.load( is, pwd );
-        is.close();
-        Key key = ks.getKey( alias, pwd );
-        if( key instanceof PrivateKey ) {
-            return (PrivateKey) key;
-        }
-        return null;
-    }
-
-	/**
-     * Extrai a chave pública do arquivo.
-     */
-    public static PublicKey getPublicKeyFromFile( File cert, String alias, String password ) throws Exception {
-        KeyStore ks = KeyStore.getInstance ( "JKS" );
-        char[] pwd = password.toCharArray();
-        InputStream is = new FileInputStream( cert );
-        ks.load( is, pwd );
-        Key key = ks.getKey( alias, pwd );
-        Certificate c = ks.getCertificate( alias );
-        PublicKey p = c.getPublicKey();
-        return p;
-	}
-
-	/**
-     * Retorna a assinatura para o buffer de bytes, usando a chave privada.
-     */
-	public static byte[] createSignature(PrivateKey key, byte[] buffer) throws Exception {
-		Signature sig = Signature.getInstance( signatureAlgorithm );
-		sig.initSign(key);
-		sig.update(buffer, 0, buffer.length);
-		return sig.sign();
-	}
-
-	/**
-     * Verifica a assinatura para o buffer de bytes, usando a chave pública.
-     */
-	public static boolean verifySignature( PublicKey key, byte[] buffer, byte[] signed ) throws Exception {
-		Signature sig = Signature.getInstance( signatureAlgorithm );
-		sig.initVerify(key);
-		sig.update(buffer, 0, buffer.length);
-		return sig.verify( signed );
-	}
-
-	/**
-	 * Converte um array de byte em uma representação, em String, de seus hexadecimais.
-	 */
-	public static String txt2Hexa(byte[] bytes) {
-        if( bytes == null ) return null;
-		String hexDigits = "0123456789abcdef";
-		StringBuffer sbuffer = new StringBuffer();
-		for (int i = 0; i < bytes.length; i++) {
-			int j = ((int) bytes[i]) & 0xFF;
-			sbuffer.append(hexDigits.charAt(j / 16));
-			sbuffer.append(hexDigits.charAt(j % 16));
+		try {
+			sig.initSign(privk);
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
 		}
-		return sbuffer.toString();
+		try {
+			sig.update(stringOriginal);
+			return sig.sign();
+		} catch (SignatureException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+
+		
 	}
+
+	
+	
+	
+	public Boolean verificaAssinatura(PublicKey pubk, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
+		
+		
+		Signature sig=null;
+		try {
+			sig = Signature.getInstance( algoritmoAssinatura );
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println("nao foi possivel iniciar com o algoritmo"+ stringAssinada);
+			e.printStackTrace();
+		}
+		try {
+			sig.initVerify(pubk);
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		}
+		try {
+			sig.update(stringOriginal);
+			return sig.verify(stringAssinada);
+		} catch (SignatureException e) {
+			System.out.println("nao foi possivel assinar:\n");
+			e.printStackTrace();
+		}
+		
+		return null;
+
+		
+	}
+
+
+	
+	public Boolean verificaAssinatura(PublicKey chavePublica, String arquivoAssinado, String arquivoOriginal, String algoritmoAssinatura){
+		KeyFactory kf = null;
+		
+		Signature sig=null;
+		try {
+			sig = Signature.getInstance( algoritmoAssinatura );
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		try {
+			sig.initVerify(chavePublica);
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		}
+		
+		
+		FileInputStream fis=null;
+		FileInputStream fis2=null;
+	
+        byte[] buffer = new byte[4096];
+        byte[] buffer2 = new byte[4096];
+        String assinaturaArquivo = "";
+
+        try {
+			fis = new FileInputStream(arquivoOriginal);
+	        int bytesLidos = -1;
+	        while ((bytesLidos = fis.read(buffer)) != -1) {
+	            sig.update(buffer, 0, bytesLidos);
+	        }
+	        
+			fis2 = new FileInputStream(arquivoAssinado);
+	        bytesLidos = -1;
+	        while ((bytesLidos = fis.read(buffer)) != -1) {
+	            assinaturaArquivo = assinaturaArquivo + buffer.toString();
+	        }
+	        
+	        
+        } catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+	
+		try {
+			return (sig.verify(assinaturaArquivo.getBytes()));
+		} catch (SignatureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+
+	}
+
+	public void assinaArquivo(PrivateKey chavePrivada, String arquivoaAssinar, String arquivoOriginal, String algoritmoAssinatura){
+		KeyFactory kf = null;
+		
+		Signature sig=null;
+		try {
+			sig = Signature.getInstance( algoritmoAssinatura );
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		try {
+			sig.initSign(chavePrivada);
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		}
+		
+		
+		FileInputStream fis=null;
+	
+        byte[] buffer = new byte[4096];
+        try {
+			fis = new FileInputStream(arquivoOriginal);
+	        int bytesLidos = -1;
+	        while ((bytesLidos = fis.read(buffer)) != -1) {
+	            sig.update(buffer, 0, bytesLidos);
+	        }
+
+        } catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+	
+		try {
+			
+			FileOutputStream fos=new FileOutputStream(arquivoaAssinar);
+			fos.write(sig.sign());
+
+			System.out.println(sig.sign().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	}
+	
+	
+	
+	
+	
+	
 }

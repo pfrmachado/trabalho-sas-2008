@@ -1,10 +1,8 @@
-package assinaturas;
+package assinaturas.lixo;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import assinaturas.AssinaturaDigital2;
-import assinaturas.AssinaturaDigitalImpl2;
 
 
 
