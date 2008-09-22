@@ -7,6 +7,7 @@ import java.security.Signature;
 import java.security.PublicKey;
 import java.security.PrivateKey;
 import java.security.SignatureException;
+import java.security.cert.Certificate;
 
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
@@ -14,7 +15,13 @@ import java.io.FileInputStream;
 
 public class AssinaturaDigitalImpl {
 	
-
+	/**
+	 * Assina digitalmente uma string através da chave privada.
+	 * @param privk
+	 * @param stringOriginal 
+	 * @param algoritmoAssinatura : MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
+	 * @return byte[] com a string assinada
+	 */
 	public byte[] assinaString(PrivateKey privk, byte[] stringOriginal, String algoritmoAssinatura){
 		
 		
@@ -41,9 +48,39 @@ public class AssinaturaDigitalImpl {
 		
 	}
 
+	/**
+	 * Verifica se através do certificado uma string é possível gerar uma string assinada
+	 * @param cert
+	 * @param stringAssinada
+	 * @param stringOriginal
+	 * @param algoritmoAssinatura : MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
+	 * @return verdadeiro caso com a stringOriginal e certificado seja gerada a stringAssinada 
+	 */
+	public Boolean verificaAssinatura(Certificate cert, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
+		return verificaAssinatura(cert.getPublicKey(),  stringAssinada, stringOriginal,  algoritmoAssinatura);
+	}
+	
+	/**
+	 * Verifica se através do certificado um arquivo é possível gerar uma assinatura 
+	 * @param cert
+	 * @param arquivoAssinado
+	 * @param arquivoOriginal
+	 * @param algoritmoAssinatura : MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
+	 * @return verdadeiro caso com o arquivoOriginal e certificado seja gerado o arquivoAssinado
+	 */
+	public Boolean verificaAssinatura(Certificate cert, String arquivoAssinado, String arquivoOriginal, String algoritmoAssinatura){
+		return verificaAssinatura(cert.getPublicKey(),  arquivoAssinado,arquivoOriginal, algoritmoAssinatura);
+	}
 	
 	
-	
+	/**
+	 * Verifica se através da chave pública e uma string é possível gerar uma determinada string assinada
+	 * @param pubk
+	 * @param stringAssinada
+	 * @param stringOriginal
+	 * @param algoritmoAssinatura
+	 * @return verdadeiro caso com a stringOriginal e a chave pública seja gerada a stringAssinada
+	 */
 	public Boolean verificaAssinatura(PublicKey pubk, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
 		
 		
@@ -73,9 +110,15 @@ public class AssinaturaDigitalImpl {
 	}
 
 
-	
-	public Boolean verificaAssinatura(PublicKey chavePublica, String arquivoAssinado, String arquivoOriginal, String algoritmoAssinatura){
-		KeyFactory kf = null;
+	/**
+	 * Verifica se através da chave pública e de um arquivo é possível gerar um determinado arquivo assinado.
+	 * @param pubk
+	 * @param arquivoAssinado
+	 * @param arquivoOriginal
+	 * @param algoritmoAssinatura : MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
+	 * @return verdadeiro caso com a arquivoOriginal e a chave pública seja gerada a arquivoAssinado
+	 */
+	public Boolean verificaAssinatura(PublicKey pubk, String arquivoAssinado, String arquivoOriginal, String algoritmoAssinatura){
 		
 		Signature sig=null;
 		try {
@@ -84,7 +127,7 @@ public class AssinaturaDigitalImpl {
 			e.printStackTrace();
 		}
 		try {
-			sig.initVerify(chavePublica);
+			sig.initVerify(pubk);
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		}
@@ -95,8 +138,6 @@ public class AssinaturaDigitalImpl {
 	
         byte[] buffer = new byte[4096];
         byte[] buffer2 = new byte[1];
-        String assinaturaArquivo="";
-
         try {
 			fis = new FileInputStream(arquivoOriginal);
 	        int bytesLidos = -1;
@@ -143,7 +184,13 @@ public class AssinaturaDigitalImpl {
 		return false;
 
 	}
-
+	/**
+	 * Assina digitalmente um arquivo através da chave privada.
+	 * @param chavePrivada
+	 * @param arquivoaAssinar
+	 * @param arquivoOriginal
+	 * @param algoritmoAssinatura  : MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
+	 */
 	public void assinaArquivo(PrivateKey chavePrivada, String arquivoaAssinar, String arquivoOriginal, String algoritmoAssinatura){
 		KeyFactory kf = null;
 		
