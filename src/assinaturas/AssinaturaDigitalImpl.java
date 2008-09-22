@@ -67,7 +67,7 @@ public class AssinaturaDigitalImpl {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return false;
 
 		
 	}
@@ -94,8 +94,8 @@ public class AssinaturaDigitalImpl {
 		FileInputStream fis2=null;
 	
         byte[] buffer = new byte[4096];
-        byte[] buffer2 = new byte[4096];
-        String assinaturaArquivo = "";
+        byte[] buffer2 = new byte[1];
+        String assinaturaArquivo="";
 
         try {
 			fis = new FileInputStream(arquivoOriginal);
@@ -106,9 +106,19 @@ public class AssinaturaDigitalImpl {
 	        
 			fis2 = new FileInputStream(arquivoAssinado);
 	        bytesLidos = -1;
-	        while ((bytesLidos = fis.read(buffer)) != -1) {
-	            assinaturaArquivo = assinaturaArquivo + buffer.toString();
+        
+	        int i=0;
+	        while ((bytesLidos = fis2.read(buffer2)) != -1) {
+	        	i++;
 	        }
+	        fis2.close();
+	        
+			fis2 = new FileInputStream(arquivoAssinado);
+        
+	        byte[] conteudoAssinado = new byte[i];
+	        fis2.read(conteudoAssinado);
+
+	        return (sig.verify(conteudoAssinado));
 	        
 	        
         } catch (Exception e) {
@@ -120,14 +130,15 @@ public class AssinaturaDigitalImpl {
                 } catch (Exception e) {
                 }
             }
+            if (fis2 != null) {
+                try {
+                    fis2.close();
+                } catch (Exception e) {
+                }
+            }
+
         }
 	
-		try {
-			return (sig.verify(assinaturaArquivo.getBytes()));
-		} catch (SignatureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		return false;
 
@@ -152,12 +163,14 @@ public class AssinaturaDigitalImpl {
 		FileInputStream fis=null;
 	
         byte[] buffer = new byte[4096];
+        String test="";
         try {
 			fis = new FileInputStream(arquivoOriginal);
 	        int bytesLidos = -1;
 	        while ((bytesLidos = fis.read(buffer)) != -1) {
 	            sig.update(buffer, 0, bytesLidos);
-	        }
+        	}
+
 
         } catch (Exception e) {
 			e.printStackTrace();
@@ -174,8 +187,8 @@ public class AssinaturaDigitalImpl {
 			
 			FileOutputStream fos=new FileOutputStream(arquivoaAssinar);
 			fos.write(sig.sign());
-
-			System.out.println(sig.sign().toString());
+			fos.close();
+//			System.out.println(sig.sign().toString()+ " ");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
