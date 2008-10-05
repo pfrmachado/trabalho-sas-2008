@@ -1,6 +1,8 @@
 package criptografia;
 
 import java.security.Key;
+import java.security.PrivateKey;
+import java.security.PublicKey;
         /*
          * Criptografia/descriptografia RES e DES.
          *
@@ -15,12 +17,12 @@ import java.security.Key;
          *
          */
 public interface Cripto {
-	byte[] criptografaRsa(Key senha, byte[] entrada);
+	byte[] criptografaRsa(PublicKey senha, byte[] entrada);
 	byte[] criptografaDes(Key senha, byte[] entrada);
-	void criptografaRsa(Key senha, String arquivoEntrada, String arquivoSaida);
+	void criptografaRsa(PublicKey senha, String arquivoEntrada, String arquivoSaida);
 	void criptografaDes(Key senha, String arquivoEntrada, String arquivoSaida);
-	byte[] descriptografaRsa(Key senha, byte[] entrada);
+	byte[] descriptografaRsa(PrivateKey senha, byte[] entrada);
 	byte[] descriptografaDes(Key senha, byte[] entrada);
-	void descriptografaRsa(Key senha, String arquivoEntrada, String arquivoSaida);
+	void descriptografaRsa(PrivateKey senha, String arquivoEntrada, String arquivoSaida);
 	void descriptografaDes(Key senha, String arquivoEntrada, String arquivoSaida);
 }

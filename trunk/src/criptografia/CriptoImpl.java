@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
@@ -16,15 +18,15 @@ import javax.crypto.NoSuchPaddingException;
  */
 public class CriptoImpl implements Cripto {
 
-    public byte[] criptografaRsa(Key senha, byte[] entrada){
-        return getCripto(senha, entrada, "RSA", false);
+    public byte[] criptografaRsa(PublicKey senha, byte[] entrada){
+        return getCripto2(senha, entrada, "RSA", false);
     }
 
     public byte[] criptografaDes(Key senha, byte[] entrada){
         return getCripto(senha, entrada, "DES", false);
     }
     
-    public void criptografaRsa(Key senha, String arquivoEntrada, String arquivoSaida){
+    public void criptografaRsa(PublicKey senha, String arquivoEntrada, String arquivoSaida){
         getCriptoFile(senha, arquivoEntrada, arquivoSaida, "RSA", false);
     }
 
@@ -33,7 +35,7 @@ public class CriptoImpl implements Cripto {
         getCriptoFile(senha, arquivoEntrada, arquivoSaida, "DES", false);
     }
 
-    public byte[] descriptografaRsa(Key senha, byte[] entrada){
+    public byte[] descriptografaRsa(PrivateKey senha, byte[] entrada){
         return getCripto(senha, entrada, "RSA", true);
     }
 
@@ -41,7 +43,7 @@ public class CriptoImpl implements Cripto {
         return getCripto(senha, entrada, "DES", true);
     }
     
-    public void descriptografaRsa(Key senha, String arquivoEntrada, String arquivoSaida){
+    public void descriptografaRsa(PrivateKey senha, String arquivoEntrada, String arquivoSaida){
         getCriptoFile(senha, arquivoEntrada, arquivoSaida, "RSA", true);
     }
 
@@ -68,6 +70,7 @@ public class CriptoImpl implements Cripto {
 			
 			if (descriptografa){
 				cifra.init(Cipher.DECRYPT_MODE, senha);
+				System.out.println("descript\n");
 			} else{
 				cifra.init(Cipher.ENCRYPT_MODE, senha);
 			}
@@ -80,6 +83,46 @@ public class CriptoImpl implements Cripto {
 		return null;        
     }
 
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    private byte[] getCripto2(PublicKey senha, byte[] entrada, String algoritmo, boolean descriptografa) {
+
+        Cipher cifra;
+    	
+    	
+
+    	
+		try {
+			 cifra = Cipher.getInstance("RSA");
+			cifra.init(Cipher.ENCRYPT_MODE, senha);
+			System.out.println("asdf");
+//			System.out.println(cripto.toHex(cifra.doFinal(mensagem)));
+//			System.out.println(cripto.toHex(cripto.criptografaRsa(chaves.getPublic(), mensagem)));
+
+//			cifra = Cipher.getInstance(algoritmo);
+			
+/*			if (descriptografa){
+				cifra.init(Cipher.DECRYPT_MODE, senha);
+				System.out.println("descript\n");
+			} else{
+				cifra.init(Cipher.ENCRYPT_MODE, senha);
+			}*/
+	        return cifra.doFinal(entrada);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;        
+    }
     
     
     
@@ -107,8 +150,6 @@ public class CriptoImpl implements Cripto {
 		try {
 			cifra = Cipher.getInstance(algoritmo);
 
-
-			
 			
 			FileInputStream fis2=null;
 
@@ -167,6 +208,17 @@ public class CriptoImpl implements Cripto {
     
     
     
-    
+    public String toHex(byte[] hash) {
+        final char[] HEX_CHARS = {'0', '1', '2', '3', '4', '5',
+            '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+        };
+
+        char strHash[] = new char[hash.length * 2];
+        for (int i = 0, x = 0; i < hash.length; i++) {
+            strHash[x++] = HEX_CHARS[(hash[i] >>> 4) & 0xf];
+            strHash[x++] = HEX_CHARS[hash[i] & 0xf];
+        }
+        return new String(strHash);
+    }
     
 }
