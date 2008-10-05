@@ -17,37 +17,60 @@ import javax.crypto.NoSuchPaddingException;
 public class CriptoImpl implements Cripto {
 
     public byte[] criptografaRsa(Key senha, byte[] entrada){
-        return getCripto(senha, entrada, "RSA");
+        return getCripto(senha, entrada, "RSA", false);
     }
 
     public byte[] criptografaDes(Key senha, byte[] entrada){
-        return getCripto(senha, entrada, "DES");
+        return getCripto(senha, entrada, "DES", false);
     }
     
     public void criptografaRsa(Key senha, String arquivoEntrada, String arquivoSaida){
-        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "RSA");
+        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "RSA", false);
     }
+
 
     public void criptografaDes(Key senha, String arquivoEntrada, String arquivoSaida){
-        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "DES");
+        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "DES", false);
     }
 
+    public byte[] descriptografaRsa(Key senha, byte[] entrada){
+        return getCripto(senha, entrada, "RSA", true);
+    }
+
+    public byte[] descriptografaDes(Key senha, byte[] entrada){
+        return getCripto(senha, entrada, "DES", true);
+    }
+    
+    public void descriptografaRsa(Key senha, String arquivoEntrada, String arquivoSaida){
+        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "RSA", true);
+    }
+
+    public void descriptografaDes(Key senha, String arquivoEntrada, String arquivoSaida){
+        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "DES", true);
+    }
     
     
     /**
-     * Obtém o a string criptografada através da string de entrada
-     * algoritmo de criptografia e chave.
-     * @param entrada Array de bytes cujo valor de hash é desejado.
-     * @param hashFunction Método de hash a ser empregado.
-     * @return Valor de hash.
+     * Criptografa/descriptografa sequencia de bytes.
+     * 
+     * @param senha chave de criptografia/descriptografia
+     * @param entrada sequencia de bytes a ser criptografada/descriptografada
+     * @param algoritmo algoritmo de critografia/descriptografia
+     * @param descriptografa variavel booleana, que se verdadeira
+     * executa a descriptografia. Se falsa, criptografa.
+     * @return cadeia de bytes criptografada/descriptografada
      */
-    private byte[] getCripto(Key senha, byte[] entrada, String algoritmo) {
+    private byte[] getCripto(Key senha, byte[] entrada, String algoritmo, boolean descriptografa) {
         
         Cipher cifra;
 		try {
 			cifra = Cipher.getInstance(algoritmo);
-
-	        cifra.init(Cipher.ENCRYPT_MODE, senha);
+			
+			if (descriptografa){
+				cifra.init(Cipher.DECRYPT_MODE, senha);
+			} else{
+				cifra.init(Cipher.ENCRYPT_MODE, senha);
+			}
 	        return cifra.doFinal(entrada);
 
 		} catch (Exception e) {
@@ -67,8 +90,17 @@ public class CriptoImpl implements Cripto {
     
     
     
-    
-    private void getCriptoFile(Key senha, String arquivoEntrada, String arquivoSaida, String algoritmo){
+    /**
+     * Criptografa/descriptografa arquivo
+ 	 * 
+     * @param senha Chave de criptografia/descriptografia
+     * @param arquivoEntrada arquivo a ser criptografado/descriptografado
+     * @param arquivoSaida resutado da criptografia/descriptografia
+     * @param algoritmo algoritmo de criptografia/descriptografia 
+     * @param descriptografa se verdadeiro, executa a funcao de descriptografia,
+     * caso contrario, criptografa.
+     */
+    private void getCriptoFile(Key senha, String arquivoEntrada, String arquivoSaida, String algoritmo, Boolean descriptografa){
     
         
         Cipher cifra;
@@ -103,11 +135,15 @@ public class CriptoImpl implements Cripto {
 			
 			
 			
+				if (descriptografa){
+					cifra.init(Cipher.DECRYPT_MODE, senha);
+				} else{
+					cifra.init(Cipher.ENCRYPT_MODE, senha);
+				}
 			
 			
 			
 			
-			cifra.init(Cipher.ENCRYPT_MODE, senha);
 
 
 			
