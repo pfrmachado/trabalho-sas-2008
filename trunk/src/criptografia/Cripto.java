@@ -1,9 +1,11 @@
 package criptografia;
+
+import java.security.Key;
         /*
          * Serviços de criptografia da biblioteca.
          *
          * @author Rafael Teixeira Duarte
-         * @version 0.1
+         * @version 0.666
          *
          *
          * ToDO
@@ -13,8 +15,10 @@ package criptografia;
          *
          */
 public interface Cripto {
+	
     //String nomeArquivo des(String );
-    //byte[] rsa(String nomeArquivo);
+    void criptografaRsa(Key senha, String nomeArquivoEntrada, String nomeArquivoSaida);
+    byte[] criptografaRsa(Key senha, byte[] entrada);
     //byte[] des(byte[] entrada);
     //byte[] rsa(byte[] entrada);
 }
