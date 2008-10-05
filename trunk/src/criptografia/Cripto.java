@@ -2,9 +2,9 @@ package criptografia;
 
 import java.security.Key;
         /*
-         * Serviços de criptografia da biblioteca.
+         * Criptografia/descriptografia RES e DES.
          *
-         * @author Rafael Teixeira Duarte
+         * @author Grupo
          * @version 0.666
          *
          *
@@ -15,10 +15,12 @@ import java.security.Key;
          *
          */
 public interface Cripto {
-	
-    //String nomeArquivo des(String );
-    void criptografaRsa(Key senha, String nomeArquivoEntrada, String nomeArquivoSaida);
-    byte[] criptografaRsa(Key senha, byte[] entrada);
-    //byte[] des(byte[] entrada);
-    //byte[] rsa(byte[] entrada);
+	byte[] criptografaRsa(Key senha, byte[] entrada);
+	byte[] criptografaDes(Key senha, byte[] entrada);
+	void criptografaRsa(Key senha, String arquivoEntrada, String arquivoSaida);
+	void criptografaDes(Key senha, String arquivoEntrada, String arquivoSaida);
+	byte[] descriptografaRsa(Key senha, byte[] entrada);
+	byte[] descriptografaDes(Key senha, byte[] entrada);
+	void descriptografaRsa(Key senha, String arquivoEntrada, String arquivoSaida);
+	void descriptografaDes(Key senha, String arquivoEntrada, String arquivoSaida);
 }
