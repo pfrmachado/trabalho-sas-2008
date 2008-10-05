@@ -21,6 +21,12 @@ EDITEM A MEDIDA QUE APARECEREM DÚVIDAS E SUGESTÕES.
 	javadoc.
 
 	Sergio, estou com uma duvida na especificaçao de minha parte, do certificado. Da uma ajuda ai...
-	Leandro, pro certificado falta adicionar certificado e chaves privados no repositorio.
-	o arquivo de repositorio é o sas.jks e a classe pra fazer isso é a keystore
+	Leandro, oq eu preciso de vc é o seguinte:
+	Todos metodos tem como entrada os paramentros Key, PublicKey, PrivateKey, Certificate.
+	Vc tem que arrumar um jeito de colocar e pegar essas "Key" no repositorio de chaves e certificados.
+	Criei um repositorio teste em res/sas.jks e implementei ja pra pegar chaves e certificados(repositorio/respositorioImpl.java), falta a
+	implmentação de adicionar chaves e certificados no repositorio.
+	
+	
+	
 	
