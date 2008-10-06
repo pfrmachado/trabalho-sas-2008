@@ -2,6 +2,8 @@ package criptografiaTest;
 
 import static org.junit.Assert.*;
 
+import hash.HashingImpl;
+
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -12,6 +14,8 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 
 import org.junit.Test;
+
+import assinaturas.AssinaturaDigitalImpl;
 
 import criptografia.CriptoImpl;
 
@@ -64,30 +68,53 @@ public class CriptoTest {
 
 	@Test
 	public void testCriptografaRsaKeyStringString() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCriptografaDesKeyStringString() {
-		KeyGenerator gerador;
+		KeyPairGenerator gerador;
+		HashingImpl hash = new HashingImpl();
 		byte [] mensagem = "teste1234".getBytes();
 		try {
 			CriptoImpl cripto = new CriptoImpl();
-			gerador = KeyGenerator.getInstance("DES");
-			gerador.init(56);
-			Key chave = gerador.generateKey();
+			gerador = KeyPairGenerator.getInstance("RSA");
+			gerador.initialize(1024);
+			KeyPair chaves = gerador.generateKeyPair();			
+	
+			cripto.criptografaRsa(chaves.getPublic(), "res/teste.txt", "res/testeRsa.txt");
+			cripto.descriptografaRsa(chaves.getPrivate(), "res/testeRsa.txt", "res/testeRsaDecript.txt");
 			
-			Cipher cifra = Cipher.getInstance("DES");
-			cifra.init(Cipher.ENCRYPT_MODE, chave);
-
-//			System.out.println(cripto.toHex(cifra.doFinal(mensagem)));
-			assertTrue(cripto.toHex(cifra.doFinal(mensagem)).compareTo(cripto.toHex(cripto.criptografaDes(chave, mensagem)))==0);			
+			assertTrue(cripto.toHex(hash.md5("res/teste.txt")).compareTo(cripto.toHex(hash.md5("res/testeRsaDecript.txt")))==0);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 
-		//		fail("Not yet implemented");
+
+	}
+
+	@Test
+	public void testCriptografaDesKeyStringString() {
+		KeyGenerator gerador;
+		HashingImpl hash = new HashingImpl();
+		try {
+			CriptoImpl cripto = new CriptoImpl();
+			gerador = KeyGenerator.getInstance("DES");
+			gerador.init(56);
+			Key chave = gerador.generateKey();			
+	
+			cripto.criptografaDes(chave, "res/teste.txt", "res/testeDes.txt");
+			cripto.descriptografaDes(chave, "res/testeDes.txt", "res/testeDesDecript.txt");
+			
+			assertTrue(cripto.toHex(hash.md5("res/teste.txt")).compareTo(cripto.toHex(hash.md5("res/testeDesDecript.txt")))==0);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+
+
+
 	}
 
 	@Test
@@ -137,12 +164,47 @@ public class CriptoTest {
 
 	@Test
 	public void testDescriptografaRsaKeyStringString() {
-//		fail("Not yet implemented");
+		KeyPairGenerator gerador;
+		HashingImpl hash = new HashingImpl();
+		try {
+			CriptoImpl cripto = new CriptoImpl();
+			gerador = KeyPairGenerator.getInstance("RSA");
+			gerador.initialize(1024);
+			KeyPair chaves = gerador.generateKeyPair();			
+	
+			cripto.criptografaRsa(chaves.getPublic(), "res/teste.txt", "res/testeRsa.txt");
+			cripto.descriptografaRsa(chaves.getPrivate(), "res/testeRsa.txt", "res/testeRsaDecript.txt");
+			
+			assertTrue(cripto.toHex(hash.md5("res/teste.txt")).compareTo(cripto.toHex(hash.md5("res/testeRsaDecript.txt")))==0);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testDescriptografaDesKeyStringString() {
-//		fail("Not yet implemented");
+		KeyGenerator gerador;
+		HashingImpl hash = new HashingImpl();
+		try {
+			CriptoImpl cripto = new CriptoImpl();
+			gerador = KeyGenerator.getInstance("DES");
+			gerador.init(56);
+			Key chave = gerador.generateKey();			
+	
+			cripto.criptografaDes(chave, "res/teste.txt", "res/testeDes.txt");
+			cripto.descriptografaDes(chave, "res/testeDes.txt", "res/testeDesDecript.txt");
+			
+			assertTrue(cripto.toHex(hash.md5("res/teste.txt")).compareTo(cripto.toHex(hash.md5("res/testeDesDecript.txt")))==0);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+
 	}
 
 }
