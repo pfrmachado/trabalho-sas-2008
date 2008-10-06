@@ -3,16 +3,24 @@ package repositorio;
 
 
 import java.security.Key;
+import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.Signature;
 import java.security.PublicKey;
 import java.security.PrivateKey;
+import java.security.KeyStore.ProtectionParameter;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+import java.security.spec.PKCS8EncodedKeySpec;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.FileInputStream;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 
 public class RepositorioImpl {
 	  
@@ -104,6 +112,58 @@ public class RepositorioImpl {
 		
 		
 		
+	public void importaCertificado(String cert, String arquivoCertificado, String arquivoChavePrivada, String alias, String password, String passwordChavePriv ){
+		try {
+
+
+
+		// Load the keystore
+		KeyStore keyStore = KeyStore.getInstance("jks");
+		FileInputStream keyStoreInputStream =
+		new FileInputStream(cert);
+		keyStore.load(keyStoreInputStream, password.toCharArray());
+		keyStoreInputStream.close();
+
+		// Load the certificate chain (in X.509 DER encoding).
+		FileInputStream certificateStream =
+		new FileInputStream(arquivoCertificado);
+		CertificateFactory certificateFactory =
+		CertificateFactory.getInstance("X.509");
+		// Required because Java is STUPID.  You can't just cast the result
+		// of toArray to Certificate[].
+		java.security.cert.Certificate[] chain = {};
+		chain = certificateFactory.generateCertificates(certificateStream).toArray(chain);
+		certificateStream.close();
+
+		// Load the private key (in PKCS#8 DER encoding).
+		File keyFile = new File(arquivoChavePrivada);
+		byte[] encodedKey = new byte[(int)keyFile.length()];
+		FileInputStream keyInputStream = new FileInputStream(keyFile);
+		keyInputStream.read(encodedKey);
+		keyInputStream.close();
+		KeyFactory rSAKeyFactory = KeyFactory.getInstance("RSA");
+		PrivateKey privateKey = rSAKeyFactory.generatePrivate(
+		new PKCS8EncodedKeySpec(encodedKey));
+
+
+		
+		keyStore.setEntry(alias,
+		new KeyStore.PrivateKeyEntry(privateKey, chain),
+		new KeyStore.PasswordProtection(passwordChavePriv.toCharArray())
+		);
+
+		// Write out the keystore
+		FileOutputStream keyStoreOutputStream =
+		new FileOutputStream(cert);
+		keyStore.store(keyStoreOutputStream, password.toCharArray());
+		keyStoreOutputStream.close();
+		}
+
+		catch (Exception e) {
+		e.printStackTrace();
+		System.exit(1);
+		}
+		}
 		
 		
 		
@@ -112,9 +172,65 @@ public class RepositorioImpl {
 		
 		
 		
+		public void criaChave(String cert, String alias, String password, String passwordChave ){
+	        KeyStore ks;
+			try {
+				ks = KeyStore.getInstance ( "JCEKS" );
+		        char[] pwd = password.toCharArray();
+		        char[] pwdchave = passwordChave.toCharArray();
+		        InputStream is = new FileInputStream( cert );
+		        ks.load( is, pwd );
+		        is.close();
+
+		        // get my private key
+//			    KeyStore.PrivateKeyEntry pkEntry = (KeyStore.PrivateKeyEntry)
+//			        ks.getEntry(alias, new KeyStore.PasswordProtection(pwdchave));
+//			    PrivateKey myPrivateKey = pkEntry.getPrivateKey();
+
+			    // save my secret key
+		     // Generate a secret key
+		        KeyGenerator kg = KeyGenerator.getInstance("DES");
+		        kg.init(56); // 56 is the keysize. Fixed for DES
+		        
+			    javax.crypto.SecretKey mySecretKey= kg.generateKey();
+			    KeyStore.SecretKeyEntry skEntry =
+			        new KeyStore.SecretKeyEntry(mySecretKey);
+			    ks.setEntry(alias, skEntry, new KeyStore.PasswordProtection(pwdchave));
+
+	/*	        Certificate certif;
+		        KeyStore.
+		        
+		        PrivateKey myPrivateKey;
+			    KeyStore.PrivateKeyEntry pkEntry =
+			        new KeyStore.PrivateKeyEntry(myPrivateKey);
+			    ks.setEntry("secretKeyAlias", pkEntry, new KeyStore.PasswordProtection(pwdchave));
+	*/	        
+			    // store away the keystore
+			    java.io.FileOutputStream fos =
+			        new java.io.FileOutputStream(cert);
+			    ks.store(fos, pwd);
+			    fos.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
 		
-		
-		
+	    public static Key getKeyFromFile( String cert, String alias, String password, String passwordChave ) throws Exception {
+	        KeyStore ks = KeyStore.getInstance ( "JCEKS" );
+	        char[] pwd = password.toCharArray();
+	        char[] pwdchave = passwordChave.toCharArray();
+	        InputStream is = new FileInputStream( cert );
+	        ks.load( is, pwd );
+	        is.close();
+	        Key key = ks.getKey( alias, pwdchave );
+	        if( key instanceof Key ) {
+	            return key;
+	        }
+	        return null;
+	    }
+
 		
 		/**
 	     * Extrai a chave privada do arquivo.
