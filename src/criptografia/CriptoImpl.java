@@ -19,7 +19,7 @@ import javax.crypto.NoSuchPaddingException;
 public class CriptoImpl implements Cripto {
 
     public byte[] criptografaRsa(PublicKey senha, byte[] entrada){
-        return getCripto2(senha, entrada, "RSA", false);
+        return getCripto(senha, entrada, "RSA", false);
     }
 
     public byte[] criptografaDes(Key senha, byte[] entrada){
@@ -70,7 +70,6 @@ public class CriptoImpl implements Cripto {
 			
 			if (descriptografa){
 				cifra.init(Cipher.DECRYPT_MODE, senha);
-				System.out.println("descript\n");
 			} else{
 				cifra.init(Cipher.ENCRYPT_MODE, senha);
 			}
@@ -91,38 +90,6 @@ public class CriptoImpl implements Cripto {
 
     
     
-    
-    
-    private byte[] getCripto2(PublicKey senha, byte[] entrada, String algoritmo, boolean descriptografa) {
-
-        Cipher cifra;
-    	
-    	
-
-    	
-		try {
-			 cifra = Cipher.getInstance("RSA");
-			cifra.init(Cipher.ENCRYPT_MODE, senha);
-			System.out.println("asdf");
-//			System.out.println(cripto.toHex(cifra.doFinal(mensagem)));
-//			System.out.println(cripto.toHex(cripto.criptografaRsa(chaves.getPublic(), mensagem)));
-
-//			cifra = Cipher.getInstance(algoritmo);
-			
-/*			if (descriptografa){
-				cifra.init(Cipher.DECRYPT_MODE, senha);
-				System.out.println("descript\n");
-			} else{
-				cifra.init(Cipher.ENCRYPT_MODE, senha);
-			}*/
-	        return cifra.doFinal(entrada);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;        
-    }
     
     
     
