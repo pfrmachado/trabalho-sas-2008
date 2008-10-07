@@ -15,10 +15,32 @@ import java.security.cert.Certificate;
 
 import org.junit.Test;
 
+import repositorio.RepositorioImpl;
+
 import assinaturas.AssinaturaDigitalImpl;
 
 public class AssinaturaDigitalTest {
+	
+	
+	@Test
+	public void testValidaCertificado(){
+		AssinaturaDigitalImpl ass = new AssinaturaDigitalImpl();
+		RepositorioImpl repositorio;
+		try {
+			repositorio = new RepositorioImpl("res/sas2.jks", "sas", "JCEKS",  "sas123");
+			//Como foi gerado um certificado auto-assinado através
+			//da ferramenta keytool, isto é, a chave pública do certificado
+			//assinou o próprio certificado, a validação do certificado com
+			//sua chave pública deve retornar "true".
+			assertTrue(ass.validaCertificado(repositorio.getCertificate("sas"), repositorio.getCertificate("sas").getPublicKey()));
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+			
+		
+	}
 	@Test
 	public void testAssinaString() {
 		try {
@@ -114,7 +136,7 @@ public class AssinaturaDigitalTest {
 		
         KeyStore ks;
 		try {
-			ks = KeyStore.getInstance ( "JKS" );
+			ks = KeyStore.getInstance ( "JCEKS" );
 	        char[] pwd = password.toCharArray();
 	        InputStream is = new FileInputStream( cert );
 	        ks.load( is, pwd );
@@ -126,7 +148,6 @@ public class AssinaturaDigitalTest {
 
 	        assertTrue(ass.verificaAssinatura(c, "res/testecert.txt.sig", "res/teste.txt", "MD5WithRSA"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -140,7 +161,7 @@ public class AssinaturaDigitalTest {
 		
         KeyStore ks;
 		try {
-			ks = KeyStore.getInstance ( "JKS" );
+			ks = KeyStore.getInstance ( "JCEKS" );
 	        char[] pwd = password.toCharArray();
 	        InputStream is = new FileInputStream( cert );
 	        ks.load( is, pwd );

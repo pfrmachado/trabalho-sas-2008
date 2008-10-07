@@ -35,7 +35,7 @@ public class CriptoTest {
 			cifra.init(Cipher.ENCRYPT_MODE, chave);
 
 //			System.out.println(cripto.toHex(cifra.doFinal(mensagem)));
-			assertTrue(cripto.toHex(cifra.doFinal(mensagem)).compareTo(cripto.toHex(cripto.criptografaDes(chave, mensagem)))==0);			
+			assertEquals(cripto.toHex(cifra.doFinal(mensagem)), cripto.toHex(cripto.criptografaDes(chave, mensagem)));			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,7 +57,7 @@ public class CriptoTest {
 			cifra.init(Cipher.DECRYPT_MODE, chaves.getPrivate());
 			//Como a cada execucao do algoritmo a criptografia RSA gera uma string encriptada diferente,
 			//criptografamos e descriptografamos, e testamos a igualdade das strings descriptografadas.
-			assertTrue(cripto.toHex(cifra.doFinal(mensagemCript)).compareTo(cripto.toHex(cripto.descriptografaRsa(chaves.getPrivate(), cripto.criptografaRsa(chaves.getPublic(), mensagem))))==0);			
+			assertEquals(cripto.toHex(cifra.doFinal(mensagemCript)), cripto.toHex(cripto.descriptografaRsa(chaves.getPrivate(), cripto.criptografaRsa(chaves.getPublic(), mensagem))));			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,7 +80,7 @@ public class CriptoTest {
 			cripto.criptografaRsa(chaves.getPublic(), "res/teste.txt", "res/testeRsa.txt");
 			cripto.descriptografaRsa(chaves.getPrivate(), "res/testeRsa.txt", "res/testeRsaDecript.txt");
 			
-			assertTrue(cripto.toHex(hash.md5("res/teste.txt")).compareTo(cripto.toHex(hash.md5("res/testeRsaDecript.txt")))==0);
+			assertEquals(cripto.toHex(hash.md5("res/teste.txt")), cripto.toHex(hash.md5("res/testeRsaDecript.txt")));
 			
 			
 		} catch (Exception e) {
@@ -104,7 +104,7 @@ public class CriptoTest {
 			cripto.criptografaDes(chave, "res/teste.txt", "res/testeDes.txt");
 			cripto.descriptografaDes(chave, "res/testeDes.txt", "res/testeDesDecript.txt");
 			
-			assertTrue(cripto.toHex(hash.md5("res/teste.txt")).compareTo(cripto.toHex(hash.md5("res/testeDesDecript.txt")))==0);
+			assertEquals(cripto.toHex(hash.md5("res/teste.txt")), cripto.toHex(hash.md5("res/testeDesDecript.txt")));
 			
 			
 		} catch (Exception e) {
@@ -130,7 +130,7 @@ public class CriptoTest {
 			cifra.init(Cipher.ENCRYPT_MODE, chaves.getPublic());
 			byte[] mensagemCript = cifra.doFinal(mensagem);
 			cifra.init(Cipher.DECRYPT_MODE, chaves.getPrivate());
-			assertTrue(cripto.toHex(cifra.doFinal(mensagemCript)).compareTo(cripto.toHex(cripto.descriptografaRsa(chaves.getPrivate(), cripto.criptografaRsa(chaves.getPublic(), mensagem))))==0);			
+			assertEquals(cripto.toHex(cifra.doFinal(mensagemCript)), cripto.toHex(cripto.descriptografaRsa(chaves.getPrivate(), cripto.criptografaRsa(chaves.getPublic(), mensagem))));			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -155,7 +155,7 @@ public class CriptoTest {
 			cifra.init(Cipher.DECRYPT_MODE, chave);
 //			System.out.println(cripto.toHex(cripto.descriptografaDes(chave, mensagemCript)));
 
-			assertTrue(cripto.toHex(cifra.doFinal(mensagemCript)).compareTo(cripto.toHex(cripto.descriptografaDes(chave, mensagemCript)))==0);			
+			assertEquals(cripto.toHex(cifra.doFinal(mensagemCript)), cripto.toHex(cripto.descriptografaDes(chave, mensagemCript)));			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -175,7 +175,7 @@ public class CriptoTest {
 			cripto.criptografaRsa(chaves.getPublic(), "res/teste.txt", "res/testeRsa.txt");
 			cripto.descriptografaRsa(chaves.getPrivate(), "res/testeRsa.txt", "res/testeRsaDecript.txt");
 			
-			assertTrue(cripto.toHex(hash.md5("res/teste.txt")).compareTo(cripto.toHex(hash.md5("res/testeRsaDecript.txt")))==0);
+			assertEquals(cripto.toHex(hash.md5("res/teste.txt")), cripto.toHex(hash.md5("res/testeRsaDecript.txt")));
 			
 			
 		} catch (Exception e) {
@@ -196,7 +196,7 @@ public class CriptoTest {
 			cripto.criptografaDes(chave, "res/teste.txt", "res/testeDes.txt");
 			cripto.descriptografaDes(chave, "res/testeDes.txt", "res/testeDesDecript.txt");
 			
-			assertTrue(cripto.toHex(hash.md5("res/teste.txt")).compareTo(cripto.toHex(hash.md5("res/testeDesDecript.txt")))==0);
+			assertEquals(cripto.toHex(hash.md5("res/teste.txt")), cripto.toHex(hash.md5("res/testeDesDecript.txt")));
 			
 			
 		} catch (Exception e) {

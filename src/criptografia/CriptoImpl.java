@@ -12,43 +12,105 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 /**
- *
- * @author grupo 
- * @version 0.666
- */
+* Criptografia/descriptografia usando Chaves Assimétricas 
+* (Agoritmo RSA) ou Simétrica (Algoritmo DES)
+* 
+* @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Roza 
+* @version 0.6
+*/
+
 public class CriptoImpl implements Cripto {
 
-    public byte[] criptografaRsa(PublicKey senha, byte[] entrada){
-        return getCripto(senha, entrada, "RSA", false);
+	/**
+	 * Criptografa um array de bytes usando o algoritmo RSA.
+	 * @param pubk 
+	 * @param entrada
+	 * @return array de bytes criptografado
+	 */
+	public byte[] criptografaRsa(PublicKey pubk, byte[] entrada){
+        return getCripto(pubk, entrada, "RSA", false);
     }
 
-    public byte[] criptografaDes(Key senha, byte[] entrada){
-        return getCripto(senha, entrada, "DES", false);
+	/**
+	 * Criptografa um array de bytes usando o algoritmo DES.
+	 * @param key
+	 * @param entrada
+	 * @return array de bytes criptografado
+	 */
+
+    public byte[] criptografaDes(Key key, byte[] entrada){
+        return getCripto(key, entrada, "DES", false);
     }
     
-    public void criptografaRsa(PublicKey senha, String arquivoEntrada, String arquivoSaida){
-        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "RSA", false);
+	/**
+	 * Criptografa um arquivo usando o algoritmo RSA.
+	 * @param pubk
+	 * @param arquivoEntrada
+	 * @param arquivoSaida
+	 *  
+	 */
+
+    public void criptografaRsa(PublicKey pubk, String arquivoEntrada, String arquivoSaida){
+        getCriptoFile(pubk, arquivoEntrada, arquivoSaida, "RSA", false);
     }
 
+	/**
+	 * Criptografa um arquivo usando o algoritmo DES.
+	 * @param pubk
+	 * @param arquivoEntrada
+	 * @param arquivoSaida
+	 *  
+	 */
 
-    public void criptografaDes(Key senha, String arquivoEntrada, String arquivoSaida){
-        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "DES", false);
+    public void criptografaDes(Key key, String arquivoEntrada, String arquivoSaida){
+        getCriptoFile(key, arquivoEntrada, arquivoSaida, "DES", false);
     }
 
-    public byte[] descriptografaRsa(PrivateKey senha, byte[] entrada){
-        return getCripto(senha, entrada, "RSA", true);
+    /**
+	 * Descriptografa array de bytes usando o algoritmo RSA.
+	 * @param privk
+	 * @param entrada
+	 * @return array de bytes descriptografado
+	 *  
+	 */
+
+    public byte[] descriptografaRsa(PrivateKey privk, byte[] entrada){
+        return getCripto(privk, entrada, "RSA", true);
     }
 
-    public byte[] descriptografaDes(Key senha, byte[] entrada){
-        return getCripto(senha, entrada, "DES", true);
+    /**
+	 * Descriptografa array de bytes usando o algoritmo RSA.
+	 * @param key
+	 * @param entrada
+	 * @return array de bytes descriptografado
+	 *  
+	 */
+
+    public byte[] descriptografaDes(Key key, byte[] entrada){
+        return getCripto(key, entrada, "DES", true);
     }
+	/**
+	 * Descriptografa um arquivo usando o algoritmo RSA.
+	 * @param privk
+	 * @param arquivoEntrada
+	 * @param arquivoSaida
+	 *  
+	 */
     
-    public void descriptografaRsa(PrivateKey senha, String arquivoEntrada, String arquivoSaida){
-        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "RSA", true);
+    public void descriptografaRsa(PrivateKey privk, String arquivoEntrada, String arquivoSaida){
+        getCriptoFile(privk, arquivoEntrada, arquivoSaida, "RSA", true);
     }
 
-    public void descriptografaDes(Key senha, String arquivoEntrada, String arquivoSaida){
-        getCriptoFile(senha, arquivoEntrada, arquivoSaida, "DES", true);
+    /**
+	 * Descriptografa um arquivo usando o algoritmo DES.
+	 * @param key
+	 * @param arquivoEntrada
+	 * @param arquivoSaida
+	 *  
+	 */
+
+    public void descriptografaDes(Key key, String arquivoEntrada, String arquivoSaida){
+        getCriptoFile(key, arquivoEntrada, arquivoSaida, "DES", true);
     }
     
     
@@ -81,24 +143,6 @@ public class CriptoImpl implements Cripto {
 		}
 		return null;        
     }
-
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     /**
      * Criptografa/descriptografa arquivo
@@ -116,65 +160,38 @@ public class CriptoImpl implements Cripto {
         Cipher cifra;
 		try {
 			cifra = Cipher.getInstance(algoritmo);
-
-			
 			FileInputStream fis2=null;
-
 		    byte[] buffer2 = new byte[1];
 	        int bytesLidos = -1;
-
-		        
 				fis2 = new FileInputStream(arquivoEntrada);
 		        bytesLidos = -1;
-		    
 		        int i=0;
 		        while ((bytesLidos = fis2.read(buffer2)) != -1) {
 		        	i++;
 		        }
 		        fis2.close();
-		        
 				fis2 = new FileInputStream(arquivoEntrada);
-		    
 		        byte[] conteudoArquivo = new byte[i];
 		        fis2.read(conteudoArquivo);
-
-			
-
-			
-			
-			
 				if (descriptografa){
 					cifra.init(Cipher.DECRYPT_MODE, senha);
 				} else{
 					cifra.init(Cipher.ENCRYPT_MODE, senha);
 				}
-			
-			
-			
-			
-
-
-			
-			FileOutputStream fos=new FileOutputStream(arquivoSaida);
-			fos.write(cifra.doFinal(conteudoArquivo));
-			fos.close();       
+				FileOutputStream fos=new FileOutputStream(arquivoSaida);
+				fos.write(cifra.doFinal(conteudoArquivo));
+				fos.close();       
 	        
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	
     }    
     
-    
-    
-    
-    
-    
-    
-    
-    
+    /**
+     * Converte array de bytes em string hexa
+     * @param hash
+     * @return string hexa
+     */
     public String toHex(byte[] hash) {
         final char[] HEX_CHARS = {'0', '1', '2', '3', '4', '5',
             '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
