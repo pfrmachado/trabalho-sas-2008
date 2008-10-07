@@ -1,13 +1,10 @@
 package hash;
 
-//package seguranca;
 
-
-
-/*
- * ServiÃ§os de hashing da biblioteca.
+/**
+ * Serviços de hashing da biblioteca.
  * 
- * @author FÃ¡bio Nogueira de Lucena
+ * @author Fábio Nogueira de Lucena
  * @version 0.1
  */
 public interface Hashing {

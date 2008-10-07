@@ -7,15 +7,12 @@ import hash.HashingImpl;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 
 import org.junit.Test;
 
-import assinaturas.AssinaturaDigitalImpl;
 
 import criptografia.CriptoImpl;
 
@@ -34,7 +31,6 @@ public class CriptoTest {
 			Cipher cifra = Cipher.getInstance("DES");
 			cifra.init(Cipher.ENCRYPT_MODE, chave);
 
-//			System.out.println(cripto.toHex(cifra.doFinal(mensagem)));
 			assertEquals(cripto.toHex(cifra.doFinal(mensagem)), cripto.toHex(cripto.criptografaDes(chave, mensagem)));			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,7 +149,6 @@ public class CriptoTest {
 
 			byte[] mensagemCript = cifra.doFinal(mensagem);
 			cifra.init(Cipher.DECRYPT_MODE, chave);
-//			System.out.println(cripto.toHex(cripto.descriptografaDes(chave, mensagemCript)));
 
 			assertEquals(cripto.toHex(cifra.doFinal(mensagemCript)), cripto.toHex(cripto.descriptografaDes(chave, mensagemCript)));			
 		} catch (Exception e) {
