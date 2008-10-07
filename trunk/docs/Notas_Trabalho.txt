@@ -3,12 +3,12 @@ EDITEM A MEDIDA QUE APARECEREM DÚVIDAS E SUGESTÕES.
 
 
 -> Discutir a divisão das tarefas do trabalho.
-	-> 1 pessoa responsável pelas assinaturas Sérgio
+Feito	-> 1 pessoa responsável pelas assinaturas Sérgio
 	(http://www.guj.com.br/java.tutorial.artigo.141.1.guj)
 	
-	-> 1 pessoa responsável pela criptografia Rafael
+Feito	-> 1 pessoa responsável pela criptografia Rafael
 
-	-> 1 pessoa responsável por implementar o repositório.
+Feito	-> 1 pessoa responsável por implementar o repositório.
 	http://java.sun.com/j2se/1.5.0/docs/api/java/security/KeyStore.html
 	
 	-> 1 pessoa responsável por colocar no padrão façade (thiago)
@@ -20,13 +20,8 @@ EDITEM A MEDIDA QUE APARECEREM DÚVIDAS E SUGESTÕES.
 	de teste e comentar os métodos de acordo com o padrão
 	javadoc.
 
-	Sergio, estou com uma duvida na especificaçao de minha parte, do certificado. Da uma ajuda ai...
-	Leandro, oq eu preciso de vc é o seguinte:
-	Todos metodos tem como entrada os paramentros Key, PublicKey, PrivateKey, Certificate.
-	Vc tem que arrumar um jeito de colocar e pegar essas "Key" no repositorio de chaves e certificados.
-	Criei um repositorio teste em res/sas.jks e implementei ja pra pegar chaves e certificados(repositorio/respositorioImpl.java), falta a
-	implmentação de adicionar chaves e certificados no repositorio.
-	
-	
+
+	Sergio, estou com uma duvida na especificaçao de minha parte, do certificado. Da uma ajuda ai...	
+	Ja fiz sua parte =D	
 	
 	
