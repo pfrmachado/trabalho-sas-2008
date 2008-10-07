@@ -23,7 +23,7 @@ import java.io.FileInputStream;
  * @version 0.6
  */
 
-public class AssinaturaDigitalImpl {
+public class AssinaturaDigitalImpl implements AssinaturaDigital{
 	
 	/**
 	 * Assina digitalmente uma string através da chave privada.
@@ -66,7 +66,7 @@ public class AssinaturaDigitalImpl {
 	 * @param algoritmoAssinatura : MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
 	 * @return verdadeiro caso com a stringOriginal e certificado seja gerada a stringAssinada 
 	 */
-	public Boolean verificaAssinatura(Certificate cert, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
+	public boolean verificaAssinatura(Certificate cert, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
 		return verificaAssinatura(cert.getPublicKey(),  stringAssinada, stringOriginal,  algoritmoAssinatura);
 	}
 
@@ -80,7 +80,7 @@ public class AssinaturaDigitalImpl {
 	 * @param algoritmoAssinatura : MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
 	 * @return verdadeiro caso com o arquivoOriginal e certificado seja gerado o arquivoAssinado
 	 */
-	public Boolean verificaAssinatura(Certificate cert, String arquivoAssinado, String arquivoOriginal, String algoritmoAssinatura){
+	public boolean verificaAssinatura(Certificate cert, String arquivoAssinado, String arquivoOriginal, String algoritmoAssinatura){
 		return verificaAssinatura(cert.getPublicKey(),  arquivoAssinado,arquivoOriginal, algoritmoAssinatura);
 	}
 	
@@ -93,7 +93,7 @@ public class AssinaturaDigitalImpl {
 	 * @param algoritmoAssinatura
 	 * @return verdadeiro caso com a stringOriginal e a chave pública seja gerada a stringAssinada
 	 */
-	public Boolean verificaAssinatura(PublicKey pubk, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
+	public boolean verificaAssinatura(PublicKey pubk, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
 		
 		
 		Signature sig=null;
@@ -130,7 +130,7 @@ public class AssinaturaDigitalImpl {
 	 * @param algoritmoAssinatura : MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
 	 * @return verdadeiro caso com a arquivoOriginal e a chave pública seja gerada a arquivoAssinado
 	 */
-	public Boolean verificaAssinatura(PublicKey pubk, String arquivoAssinado, String arquivoOriginal, String algoritmoAssinatura){
+	public boolean verificaAssinatura(PublicKey pubk, String arquivoAssinado, String arquivoOriginal, String algoritmoAssinatura){
 		
 		Signature sig=null;
 		try {
