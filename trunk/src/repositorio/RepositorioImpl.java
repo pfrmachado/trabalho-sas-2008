@@ -5,38 +5,37 @@ package repositorio;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
-import java.security.Signature;
 import java.security.PublicKey;
 import java.security.PrivateKey;
-import java.security.KeyStore.LoadStoreParameter;
-import java.security.KeyStore.PrivateKeyEntry;
-import java.security.KeyStore.ProtectionParameter;
-import java.security.KeyStore.SecretKeyEntry;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.spec.PKCS8EncodedKeySpec;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.FileInputStream;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 /**
  * Repositório de chaves e certificados.
  * Se utiliza do repositório de chaves e certificados
  * criado pela ferramenta keytool. 
- *
+ * 
+ * Os métodos responsáveis por alterar dados 
+ * do banco,por dependerem muito da tecnologia
+ * usada na ferramenta keytool, usada para gerar o banco,
+ * estão como deprecated e não serão usados neste trabalho.
+ * Recomendamos os usuários da biblioteca que utilizem o
+ * próprio keytool para modificar dados do repositório.
+ * 
  * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Roza 
  * @version 0.6
  */
-public class RepositorioImpl {
+public class RepositorioImpl implements Repositorio{
 	private KeyStore ks = null;	
 	private char[] pwd= null;	//password do arquivo keystore
 	private String arquivoRepositorio = null; //arquivo keystore
@@ -51,7 +50,7 @@ public class RepositorioImpl {
 	 * @param passwordRepositorio
 	 * @throws Exception
 	 */
-	public RepositorioImpl(String arquivoRepositorio, String alias, String tipoInstancia, String passwordRepositorio) throws Exception {
+	public RepositorioImpl(String arquivoRepositorio, String alias, String tipoInstancia, String passwordRepositorio) throws Exception{
 		//		ks = KeyStore.getInstance ( "JCEKS" );
 		ks = KeyStore.getInstance ( tipoInstancia );
 		char[] pwd = passwordRepositorio.toCharArray();
@@ -157,9 +156,14 @@ public class RepositorioImpl {
 
 
 
-	// Os métodos abaixo, por dependerem muito da tecnologia
-	// usada na ferramenta keytool, para gerar o banco,
-	// estão como deprecated e não serão usados.
+	// Os métodos abaixo, são responsáveis por alterar dados 
+	// do banco. Por dependerem muito da tecnologia
+	// usada na ferramenta keytool, usada para gerar o banco,
+	// estes métodos estão como deprecated e não serão usados 
+	// neste trabalho.
+	// Recomendamos os usuários da biblioteca que utilizem o
+	// próprio keytool para modificar dados do repositório. 
+
 	/**
 	 * Remove uma chave simétrica do repositório
 	 * @param alias 
