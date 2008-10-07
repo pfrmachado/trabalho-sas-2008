@@ -3,15 +3,25 @@ package assinaturas;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.Signature;
 import java.security.PublicKey;
 import java.security.PrivateKey;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 
+/**
+ * Assina digitalmente um documento (arquivo) ou sequencia de bytes, 
+ * verifica a assinatura de um dado documento ou sequencia de bytes e 
+ * valida um certificado digital. 
+ *
+ * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Roza 
+ * @version 0.6
+ */
 
 public class AssinaturaDigitalImpl {
 	
@@ -59,6 +69,8 @@ public class AssinaturaDigitalImpl {
 	public Boolean verificaAssinatura(Certificate cert, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
 		return verificaAssinatura(cert.getPublicKey(),  stringAssinada, stringOriginal,  algoritmoAssinatura);
 	}
+
+
 	
 	/**
 	 * Verifica se através do certificado um arquivo é possível gerar uma assinatura 
@@ -235,7 +247,6 @@ public class AssinaturaDigitalImpl {
 			FileOutputStream fos=new FileOutputStream(arquivoaAssinar);
 			fos.write(sig.sign());
 			fos.close();
-//			System.out.println(sig.sign().toString()+ " ");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -243,8 +254,37 @@ public class AssinaturaDigitalImpl {
 	}
 	
 	
-	
-	
-	
-	
+
+
+	/**
+	 * Valida certificado com a chave pública da autoridade certificadora.
+	 * @param certificado certificado a ser validado
+	 * @param pubk chave pública da autoridade certificadora
+	 * @return true se a autoridade certificadora validou o certificado
+	 * false, caso contrário.
+	 * 
+	 */
+	public boolean validaCertificado(Certificate certificado, PublicKey pubk){
+        try {
+            certificado.verify(pubk);
+            return true;
+        } catch (SignatureException se) {
+            return false;
+        } catch (InvalidKeyException e) {
+        	System.out.println("Erro em validaCertificado:");
+			e.printStackTrace();
+		} catch (CertificateException e) {
+        	System.out.println("Erro em validaCertificado:");
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+        	System.out.println("Erro em validaCertificado:");
+			e.printStackTrace();
+		} catch (NoSuchProviderException e) {
+        	System.out.println("Erro em validaCertificado:");
+			e.printStackTrace();
+		}
+
+		return false;
+		}
+
 }
