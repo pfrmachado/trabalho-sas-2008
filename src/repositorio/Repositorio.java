@@ -13,7 +13,7 @@ import javax.crypto.SecretKey;
  * Se utiliza do repositório de chaves e certificados
  * criado pela ferramenta keytool. 
  * 
- * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Roza 
+ * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa 
  * @version 0.6
  */
 public interface Repositorio {

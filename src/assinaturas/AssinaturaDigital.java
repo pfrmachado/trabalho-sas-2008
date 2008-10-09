@@ -9,7 +9,7 @@ import java.security.cert.Certificate;
  * verifica a assinatura de um dado documento ou sequencia de bytes e 
  * valida um certificado digital. 
  *
- * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Roza 
+ * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa 
  * @version 0.6
  */
 

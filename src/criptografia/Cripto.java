@@ -8,7 +8,7 @@ import java.security.PublicKey;
 * Criptografia/descriptografia usando Chaves Assimétricas 
 * (Agoritmo RSA) ou Simétrica (Algoritmo DES)
 * 
-* @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Roza 
+* @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa 
 * @version 0.6
 */
 

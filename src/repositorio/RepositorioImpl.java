@@ -32,7 +32,7 @@ import javax.crypto.SecretKey;
  * Recomendamos os usuários da biblioteca que utilizem o
  * próprio keytool para modificar dados do repositório.
  * 
- * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Roza 
+ * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa 
  * @version 0.6
  */
 public class RepositorioImpl implements Repositorio{
@@ -81,7 +81,7 @@ public class RepositorioImpl implements Repositorio{
 	/**
 	 * Obtém o certificado do repositório.
 	 * @param alias 
-	 * @return 
+	 * @return Certificate
 	 */
 	public Certificate getCertificate (String alias) {
 		try {
@@ -97,7 +97,7 @@ public class RepositorioImpl implements Repositorio{
 	 * Obtém uma chave privada do repositório.
 	 * @param alias
 	 * @param password
-	 * @return
+	 * @return PrivateKey
 	 */
 	public PrivateKey getPrivateKey (String alias, String password) {
 		Key key = getKey(alias, password);
@@ -109,7 +109,7 @@ public class RepositorioImpl implements Repositorio{
 	/**
 	 * Obtém uma chave pública do repositório.
 	 * @param alias
-	 * @return
+	 * @return PublicKey
 	 */
 	public PublicKey getPublicKey (String alias) {
 		try {
@@ -126,7 +126,7 @@ public class RepositorioImpl implements Repositorio{
 	 * Obtém uma chave simétrica do repositório.
 	 * @param alias
 	 * @param password
-	 * @return
+	 * @return SecretKey
 	 */
 	public SecretKey getSecretKey (String alias, String password) {
 		char[] pwd = password.toCharArray();
@@ -142,7 +142,7 @@ public class RepositorioImpl implements Repositorio{
 	 * Obtém o par de chaves assimétricas do repositório
 	 * @param alias
 	 * @param password
-	 * @return
+	 * @return KeyPair
 	 */
 	public KeyPair getKeyPair(String alias, String password) {
 		PublicKey publicKey = getPublicKey(alias);
@@ -260,7 +260,6 @@ public class RepositorioImpl implements Repositorio{
 	 * Cria uma chave privada para o repositório 
 	 * @param cert
 	 * @param alias
-	 * @param password
 	 * @param passwordChave
 	 * @deprecated
 	 */
