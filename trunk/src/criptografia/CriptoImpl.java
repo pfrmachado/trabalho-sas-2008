@@ -15,7 +15,7 @@ import javax.crypto.NoSuchPaddingException;
 * Criptografia/descriptografia usando Chaves Assimétricas 
 * (Agoritmo RSA) ou Simétrica (Algoritmo DES)
 * 
-* @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Roza 
+* @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa 
 * @version 0.6
 */
 
@@ -56,7 +56,7 @@ public class CriptoImpl implements Cripto {
 
 	/**
 	 * Criptografa um arquivo usando o algoritmo DES.
-	 * @param pubk
+	 * @param key
 	 * @param arquivoEntrada
 	 * @param arquivoSaida
 	 *  

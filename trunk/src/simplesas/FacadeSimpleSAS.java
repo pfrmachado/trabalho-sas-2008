@@ -17,6 +17,16 @@ import assinaturas.AssinaturaDigitalImpl;
 import repositorio.Repositorio;
 import repositorio.RepositorioImpl;
 
+/**
+ * Biblioteca com o objetivo de fornecer serviços "mais abstratos" (veja
+ * observação adiante) que aqueles oferecidos pela plataforma Java para
+ * criptografia de informações (tanto usando algoritmos simétricos quanto
+ * assimétricos) assim como emprego de certificação e assinatura digital de
+ * documentos por parte de aplicações em Java
+ * 
+ * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa
+ * @version 0.6
+ */
 public class FacadeSimpleSAS {
 
 	Repositorio repositorio = null;
@@ -79,7 +89,7 @@ public class FacadeSimpleSAS {
 	 * @param stringAssinada 
 	 * @param stringOriginal
 	 * @param algoritmoAssinatura MD2withRSA, MD5withRSA, SHA1withDSA ou SHA1withRSA
-	 * @returntrue se assinatura confere, false caso contrário 
+	 * @return true se assinatura confere, false caso contrário 
 	 */
 	public boolean verificaAssinaturaPubk(String alias, byte[] stringAssinada, byte[] stringOriginal, String algoritmoAssinatura){
 		PublicKey pubk = repositorio.getPublicKey(alias);
@@ -167,16 +177,13 @@ public class FacadeSimpleSAS {
 
     /**
      * Obtém o valor de hash sha1 para a entrada fornecida.
-     * @param nomeArquivo 
+     * @param entrada entrada a ser obtido o sha1
      * @return Valor de hash.
      */
     public byte[] sha1(byte[] entrada){
     	return hashing.sha1(entrada);
     }
 
-
-    
-    
     
     /**
      * Criptografa a entrada com o algoritmo de chaves assimétricas RSA.
