@@ -18,11 +18,11 @@ import repositorio.Repositorio;
 import repositorio.RepositorioImpl;
 
 /**
- * Biblioteca com o objetivo de fornecer serviços "mais abstratos" (veja
- * observação adiante) que aqueles oferecidos pela plataforma Java para
+ * Biblioteca com o objetivo de fornecer serviços "mais abstratos"
+ * que aqueles oferecidos pela plataforma Java para
  * criptografia de informações (tanto usando algoritmos simétricos quanto
  * assimétricos) assim como emprego de certificação e assinatura digital de
- * documentos por parte de aplicações em Java
+ * documentos por parte de aplicações em Java.
  * 
  * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa
  * @version 0.6
