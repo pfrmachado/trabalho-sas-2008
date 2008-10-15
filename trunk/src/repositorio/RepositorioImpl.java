@@ -34,6 +34,9 @@ import javax.crypto.spec.SecretKeySpec;
  * Recomendamos os usuários da biblioteca que utilizem o
  * próprio keytool para modificar dados do repositório.
  * 
+ * Recomendamos também a utilização do KeyToolGUI, que se encontra em
+ * http://yellowcat1.free.fr/keytool_iui.html
+ * 
  * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa 
  * @version 0.6
  */
