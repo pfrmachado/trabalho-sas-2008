@@ -4,9 +4,12 @@ import hash.Hashing;
 import hash.HashingImpl;
 
 import java.security.Key;
+import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
+
+import javax.crypto.SecretKey;
 
 import criptografia.Cripto;
 import criptografia.CriptoImpl;
@@ -55,6 +58,79 @@ public class FacadeSimpleSAS {
 		e.printStackTrace();
 	}
 	}
+
+	public FacadeSimpleSAS(){
+		
+	}
+	
+	/**
+	 * Este método é responsável por inicializar o repositório
+	 * criado pela ferramenta keytool.
+	 * 
+	 * @param arquivoRepositorio
+	 * @param alias
+	 * @param tipoInstancia "JCEKS", "JKS", "SUN"
+	 * @param passwordRepositorio
+	 * @throws Exception
+	 */
+	public void iniRepositorio(String arquivoRepositorio, String alias, String tipoInstancia, String passwordRepositorio){
+
+	try {
+		//Repositorio repositorio = new RepositorioImpl("res/sas.jks", "sas", "JCEKS",  "sas123");
+		Repositorio repositorio = new RepositorioImpl(arquivoRepositorio, alias, tipoInstancia,  passwordRepositorio);
+		this.repositorio = repositorio;
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	}
+	
+	/**
+	 * Obtém um certificado do repositório
+	 * @param alias identificador do certificado no repositório 
+	 * @return Certificado
+	 */
+	public Certificate getCertificate(String alias){
+		return repositorio.getCertificate(alias);
+	}
+	
+	/**
+	 * Obtém uma chave privada do repositório
+	 * @param alias	identificador da chave privada
+	 * @param password Password da chave privada no repositório
+	 * @return Chave privada
+	 */
+	public PrivateKey getPrivateKey (String alias, String password){
+		return repositorio.getPrivateKey(alias, password);
+	}
+	/**
+	 * Obtém uma chave pública do repositório
+	 * @param alias identificador da chave privada
+	 * @return Chave pública
+	 */
+	public PublicKey getPublicKey (String alias){
+		return repositorio.getPublicKey(alias);
+	}
+
+	/**
+	 * Obtém uma chave simétrica do repositório
+	 * @param alias Identificador da chave
+	 * @param password Senha de acesso à chave no repositório
+	 * @return Chave 
+	 */
+	public SecretKey getSecretKey (String alias, String password){
+		return repositorio.getSecretKey(alias, password);
+	}
+	/**
+	 * Obtém um par de chaves do repositório.
+	 * @param alias Identificador do par de chaves
+	 * @param password Senha de acesso à chave privada do par de chaves.
+	 * @return Par de chaves
+	 */
+	public KeyPair getKeyPair(String alias, String password){
+		return repositorio.getKeyPair(alias, password);
+	}
+
+	
 	/**
 	 * Assina digitalmente uma String.
 	 * 
