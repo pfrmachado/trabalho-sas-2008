@@ -10,6 +10,7 @@ import java.security.PublicKey;
 import java.security.cert.Certificate;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import criptografia.Cripto;
 import criptografia.CriptoImpl;

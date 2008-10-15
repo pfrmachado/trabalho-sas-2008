@@ -9,6 +9,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.PublicKey;
 import java.security.PrivateKey;
+import java.security.KeyStore.SecretKeyEntry;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -20,6 +21,7 @@ import java.io.FileInputStream;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 /**
  * Repositório de chaves e certificados.
  * Se utiliza do repositório de chaves e certificados
@@ -126,18 +128,23 @@ public class RepositorioImpl implements Repositorio{
 	 * Obtém uma chave simétrica do repositório.
 	 * @param alias
 	 * @param password
-	 * @return SecretKey
+	 * @return SecretKeySpec
 	 */
 	public SecretKey getSecretKey (String alias, String password) {
-		char[] pwd = password.toCharArray();
+		char[] pass = password.toCharArray();
 		try {
-			return (SecretKey) ks.getKey(alias, pwd);
+//			SecretKeyEntry s = (SecretKeyEntry) ks.getEntry(alias, new KeyStore.PasswordProtection(pass));
+//			return (SecretKeySpec) s.getSecretKey();
+			SecretKey s = (SecretKey) ks.getKey(alias, pass);
+			return s;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaafffffffff");
 		return null;
 	}
+
 	/**
 	 * Obtém o par de chaves assimétricas do repositório
 	 * @param alias
