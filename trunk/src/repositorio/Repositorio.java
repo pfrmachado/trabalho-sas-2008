@@ -7,6 +7,7 @@ import java.security.PublicKey;
 import java.security.cert.Certificate;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Repositório de chaves e certificados.
