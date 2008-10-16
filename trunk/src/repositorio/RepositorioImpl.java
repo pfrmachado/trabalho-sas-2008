@@ -23,21 +23,21 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 /**
- * Repositório de chaves e certificados.
- * Se utiliza do repositório de chaves e certificados
+ * Repositï¿½rio de chaves e certificados.
+ * Se utiliza do repositï¿½rio de chaves e certificados
  * criado pela ferramenta keytool. 
  * 
- * Os métodos responsáveis por alterar dados 
+ * Os mï¿½todos responsï¿½veis por alterar dados 
  * do banco,por dependerem muito da tecnologia
  * usada na ferramenta keytool, usada para gerar o banco,
- * estão como deprecated e não serão usados neste trabalho.
- * Recomendamos os usuários da biblioteca que utilizem o
- * próprio keytool para modificar dados do repositório.
+ * estï¿½o como deprecated e nï¿½o serï¿½o usados neste trabalho.
+ * Recomendamos os usuï¿½rios da biblioteca que utilizem o
+ * prï¿½prio keytool para modificar dados do repositï¿½rio.
  * 
- * Recomendamos também a utilização do KeyToolGUI, que se encontra em
+ * Recomendamos tambï¿½m a utilizaï¿½ï¿½o do KeyToolGUI, que se encontra em
  * http://yellowcat1.free.fr/keytool_iui.html
  * 
- * @author Leandro Alexandre, Sérgio Daniel, Rafael Duarte, Thiago Rosa 
+ * @author Leandro Alexandre, Sï¿½rgio Daniel, Rafael Duarte, Thiago Rosa 
  * @version 0.6
  */
 public class RepositorioImpl implements Repositorio{
@@ -46,8 +46,8 @@ public class RepositorioImpl implements Repositorio{
 	private String arquivoRepositorio = null; //arquivo keystore
 
 	/**
-	 * Este construtor obtem dados necessários para acessar o
-	 * repositório criado pela ferramenta keytool.
+	 * Este construtor obtem dados necessï¿½rios para acessar o
+	 * repositï¿½rio criado pela ferramenta keytool.
 	 * 
 	 * @param arquivoRepositorio
 	 * @param alias
@@ -56,7 +56,6 @@ public class RepositorioImpl implements Repositorio{
 	 * @throws Exception
 	 */
 	public RepositorioImpl(String arquivoRepositorio, String alias, String tipoInstancia, String passwordRepositorio) throws Exception{
-		//		ks = KeyStore.getInstance ( "JCEKS" );
 		ks = KeyStore.getInstance ( tipoInstancia );
 		char[] pwd = passwordRepositorio.toCharArray();
 		InputStream is = new FileInputStream( arquivoRepositorio );
@@ -67,7 +66,7 @@ public class RepositorioImpl implements Repositorio{
 	}
 
 	/**
-	 * Obtém uma chave do repositório.
+	 * Obtï¿½m uma chave do repositï¿½rio.
 	 * @param alias identificador da chave
 	 * @param password senha para acessar a chave
 	 * @return a chave
@@ -84,7 +83,7 @@ public class RepositorioImpl implements Repositorio{
 		return null;
 	}
 	/**
-	 * Obtém o certificado do repositório.
+	 * Obtï¿½m o certificado do repositï¿½rio.
 	 * @param alias 
 	 * @return Certificate
 	 */
@@ -99,7 +98,7 @@ public class RepositorioImpl implements Repositorio{
 		return null;
 	}
 	/**
-	 * Obtém uma chave privada do repositório.
+	 * Obtï¿½m uma chave privada do repositï¿½rio.
 	 * @param alias
 	 * @param password
 	 * @return PrivateKey
@@ -112,7 +111,7 @@ public class RepositorioImpl implements Repositorio{
 	}
 	
 	/**
-	 * Obtém uma chave pública do repositório.
+	 * Obtï¿½m uma chave pï¿½blica do repositï¿½rio.
 	 * @param alias
 	 * @return PublicKey
 	 */
@@ -128,7 +127,7 @@ public class RepositorioImpl implements Repositorio{
 	}
 
 	/**
-	 * Obtém uma chave simétrica do repositório.
+	 * Obtï¿½m uma chave simï¿½trica do repositï¿½rio.
 	 * @param alias
 	 * @param password
 	 * @return SecretKeySpec
@@ -136,8 +135,6 @@ public class RepositorioImpl implements Repositorio{
 	public SecretKey getSecretKey (String alias, String password) {
 		char[] pass = password.toCharArray();
 		try {
-//			SecretKeyEntry s = (SecretKeyEntry) ks.getEntry(alias, new KeyStore.PasswordProtection(pass));
-//			return (SecretKeySpec) s.getSecretKey();
 			SecretKey s = (SecretKey) ks.getKey(alias, pass);
 			return s;
 			
@@ -148,7 +145,7 @@ public class RepositorioImpl implements Repositorio{
 	}
 
 	/**
-	 * Obtém o par de chaves assimétricas do repositório
+	 * Obtï¿½m o par de chaves assimï¿½tricas do repositï¿½rio
 	 * @param alias
 	 * @param password
 	 * @return KeyPair
@@ -165,16 +162,16 @@ public class RepositorioImpl implements Repositorio{
 
 
 
-	// Os métodos abaixo, são responsáveis por alterar dados 
+	// Os mï¿½todos abaixo, sï¿½o responsï¿½veis por alterar dados 
 	// do banco. Por dependerem muito da tecnologia
 	// usada na ferramenta keytool, usada para gerar o banco,
-	// estes métodos estão como deprecated e não serão usados 
+	// estes mï¿½todos estï¿½o como deprecated e nï¿½o serï¿½o usados 
 	// neste trabalho.
-	// Recomendamos os usuários da biblioteca que utilizem o
-	// próprio keytool para modificar dados do repositório. 
+	// Recomendamos os usuï¿½rios da biblioteca que utilizem o
+	// prï¿½prio keytool para modificar dados do repositï¿½rio. 
 
 	/**
-	 * Remove uma chave simétrica do repositório
+	 * Remove uma chave simï¿½trica do repositï¿½rio
 	 * @param alias 
 	 * @deprecated
 	 */
@@ -183,7 +180,7 @@ public class RepositorioImpl implements Repositorio{
 	}
 
 	/**
-	 * Remove um certificado e sua chave privada repositório
+	 * Remove um certificado e sua chave privada repositï¿½rio
 	 * @param alias
 	 * @deprecated 
 	 */
@@ -193,7 +190,7 @@ public class RepositorioImpl implements Repositorio{
 	}
 
 	/**
-	 * Remove uma entrada do repositório.
+	 * Remove uma entrada do repositï¿½rio.
 	 * @param alias
 	 * @deprecated
 	 */
@@ -215,7 +212,7 @@ public class RepositorioImpl implements Repositorio{
 	}
 	
 	/**
-	 * Importa um certificado com sua chave privada para o repositório
+	 * Importa um certificado com sua chave privada para o repositï¿½rio
 	 * @param arquivoCertificado no formato x.509
 	 * @param arquivoChavePrivada no formato PKCS#8 DER
 	 * @param alias nome da nova entrada
@@ -264,7 +261,7 @@ public class RepositorioImpl implements Repositorio{
 	
 	
 	/**
-	 * Cria uma chave privada para o repositório 
+	 * Cria uma chave privada para o repositï¿½rio 
 	 * @param cert
 	 * @param alias
 	 * @param passwordChave
@@ -274,7 +271,7 @@ public class RepositorioImpl implements Repositorio{
 		try {
 			char[] pwdchave = passwordChave.toCharArray();
 			KeyGenerator kg = KeyGenerator.getInstance("DES");
-			kg.init(56); // 56 é o tamanho da chave fixo.
+			kg.init(56); // 56 ï¿½ o tamanho da chave fixo.
 			javax.crypto.SecretKey mySecretKey= kg.generateKey();
 			KeyStore.SecretKeyEntry skEntry =
 				new KeyStore.SecretKeyEntry(mySecretKey);
