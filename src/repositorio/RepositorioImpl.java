@@ -144,7 +144,6 @@ public class RepositorioImpl implements Repositorio{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaafffffffff");
 		return null;
 	}
 
@@ -225,18 +224,16 @@ public class RepositorioImpl implements Repositorio{
 	 */
 	public void importaCertificadoEChavePrivada(String arquivoCertificado, String arquivoChavePrivada, String alias, String passwordChavePriv ){
 		try {
-			// Load the certificate chain (in X.509 DER encoding).
+			// carrega certificado (X.509).
 			FileInputStream certificateStream =
 				new FileInputStream(arquivoCertificado);
 			CertificateFactory certificateFactory =
 				CertificateFactory.getInstance("X.509");
-			// Required because Java is STUPID.  You can't just cast the result
-			// of toArray to Certificate[].
 			java.security.cert.Certificate[] chain = {};
 			chain = certificateFactory.generateCertificates(certificateStream).toArray(chain);
 			certificateStream.close();
 
-			// Load the private key (in PKCS#8 DER encoding).
+			// carrega chave privada com PKCS#8 DER.
 			File keyFile = new File(arquivoChavePrivada);
 			byte[] encodedKey = new byte[(int)keyFile.length()];
 			FileInputStream keyInputStream = new FileInputStream(keyFile);
@@ -277,13 +274,13 @@ public class RepositorioImpl implements Repositorio{
 		try {
 			char[] pwdchave = passwordChave.toCharArray();
 			KeyGenerator kg = KeyGenerator.getInstance("DES");
-			kg.init(56); // 56 is the keysize. Fixed for DES
+			kg.init(56); // 56 é o tamanho da chave fixo.
 			javax.crypto.SecretKey mySecretKey= kg.generateKey();
 			KeyStore.SecretKeyEntry skEntry =
 				new KeyStore.SecretKeyEntry(mySecretKey);
 			ks.setEntry(alias, skEntry, new KeyStore.PasswordProtection(pwdchave));
 
-			// store away the keystore
+			// armazena na keystore
 			java.io.FileOutputStream fos =
 				new java.io.FileOutputStream(cert);
 			ks.store(fos, pwd);
